@@ -45,3 +45,17 @@ button {
     height: auto;  /* Maintain aspect ratio */
 }
 
+#goBackButton {
+    background-color: #f04e23; /* Same color as Yes/No button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: none; /* Initially hidden */
+}
+
+#goBackButton:hover {
+    background-color: #d43f1c; /* Darker shade on hover */
+}

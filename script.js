@@ -1,22 +1,26 @@
-let yesButton = document.getElementById("yesButton");
-let noButton = document.getElementById("noButton");
-let menuSection = document.getElementById("menuSection");
-let size = 20;
-
 function yesClicked() {
-    // Hide main container and show menu section
-    document.querySelector(".container").style.display = "none";
-    menuSection.style.display = "block";
+    document.getElementById("catGif").style.display = "none";
+    document.getElementById("yesButton").style.display = "none";
+    document.getElementById("noButton").style.display = "none";
+    document.getElementById("menuSection").classList.remove("hidden");
 }
 
 function noClicked() {
-    // Move "No" button to a random position
-    let x = Math.random() * (window.innerWidth - 100);
-    let y = Math.random() * (window.innerHeight - 50);
-    noButton.style.left = x + "px";
-    noButton.style.top = y + "px";
+    // Move the "No" button to a random spot
+    var noButton = document.getElementById("noButton");
+    var randomX = Math.floor(Math.random() * window.innerWidth);
+    var randomY = Math.floor(Math.random() * window.innerHeight);
+    
+    noButton.style.position = "absolute";
+    noButton.style.left = randomX + "px";
+    noButton.style.top = randomY + "px";
+    
+    // Grow the "Yes" button
+    var yesButton = document.getElementById("yesButton");
+    yesButton.style.transform = "scale(1.2)";
+}
 
-    // Increase "Yes" button size
-    size += 10;
-    yesButton.style.fontSize = size + "px";
+function goBack() {
+    // Redirect back to the main page (index.html)
+    window.location.href = "index.html";
 }
