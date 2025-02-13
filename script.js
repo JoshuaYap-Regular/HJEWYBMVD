@@ -19,8 +19,3 @@ function noClicked() {
     var yesButton = document.getElementById("yesButton");
     yesButton.style.transform = "scale(1.2)";
 }
-
-function goBack() {
-    // Redirect back to the main page (index.html)
-    window.location.href = "/index.html";
-}
