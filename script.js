@@ -22,5 +22,5 @@ function noClicked() {
 
 function goBack() {
     // Redirect back to the main page (index.html)
-    window.location.href = "index.html";
+    window.location.href = "/index.html";
 }
