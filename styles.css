@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: pink;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+h1 {
+    font-size: 28px;
+}
+
+#catGif {
+    width: 250px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+button {
+    font-size: 20px;
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+#yesButton {
+    background-color: lightgreen;
+}
+
+#noButton {
+    background-color: lightcoral;
+    position: absolute;
+}
+
+.hidden {
+    display: none;
+}
+
+#menuSection img {
+    width: 50%;  /* Adjust the percentage to make it smaller or larger */
+    max-width: 500px; /* Optionally set a maximum width */
+    height: auto;  /* Maintain aspect ratio */
+}
+
