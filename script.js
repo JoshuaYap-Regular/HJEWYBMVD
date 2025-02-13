@@ -10,9 +10,21 @@ function yesClicked() {
 }
 
 function noClicked() {
-    // Prevent clicking on "No" by simply returning from the function
-    return;
+    // Even if "No" is clicked, the "Yes" button should grow
+    size += 10; // Increase the size when "No" is clicked
+    yesButton.style.fontSize = size + "px";
+
+    // Use CSS transform to scale the "Yes" button
+    yesButton.style.transform = `scale(${1 + size / 100})`; // Grow by 10% per click
+
+    // Disable the "No" button temporarily or stop it from being clicked further
+    noButton.style.pointerEvents = "none"; // Disable interaction
+    setTimeout(function() {
+        // Re-enable the "No" button after 1 second
+        noButton.style.pointerEvents = "auto";
+    }, 1000); // Re-enable after 1 second (you can adjust the time)
 }
+
 
 function goBack() {
     // Redirect back to the main page (index.html)
