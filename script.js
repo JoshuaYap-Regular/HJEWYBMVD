@@ -11,7 +11,7 @@ function yesClicked() {
 
 function noClicked() {
     // Even if "No" is clicked, the "Yes" button should grow
-    size += 10; // Increase the size when "No" is clicked
+    size += 50; // Increase the size when "No" is clicked
     yesButton.style.fontSize = size + "px";
 
     // Use CSS transform to scale the "Yes" button
