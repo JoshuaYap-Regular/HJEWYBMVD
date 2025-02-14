@@ -28,7 +28,7 @@ function noClicked() {
 
 function goBack() {
     // Redirect back to the main page (index.html)
-    window.location.href = "/index.html";
+    window.location.href = "index.html";
 }
 
 // Move "No" button to a random position and grow "Yes" button when cursor is near
