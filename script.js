@@ -15,7 +15,7 @@ function yesClicked() {
     startHearts(); 
 }
 
-// Truly Random Pastel Background Color
+// Random Pastel Background
 function changeBackgroundColor() {
     const r = Math.floor(Math.random() * 56) + 200;
     const g = Math.floor(Math.random() * 56) + 200;
@@ -31,11 +31,10 @@ function startHearts() {
         heart.innerHTML = "❤️";
         heart.style.left = Math.random() * 90 + "vw";
         heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
-        
         heart.onclick = function() {
             totalPoints++;
             document.getElementById("score").textContent = totalPoints;
-            changeBackgroundColor(); // Change background randomly on each click
+            changeBackgroundColor();
             this.innerHTML = "✨";
             setTimeout(() => this.remove(), 100);
         };
@@ -44,7 +43,7 @@ function startHearts() {
     }, 400);
 }
 
-// Mouse Evasion Logic
+// Button Evasion logic
 document.addEventListener("mousemove", function(event) {
     const mainContainer = document.getElementById("mainContainer");
     const noBtn = document.getElementById("noButton");
@@ -63,7 +62,6 @@ document.addEventListener("mousemove", function(event) {
         noBtn.style.position = "fixed"; 
         noBtn.style.left = x + "px";
         noBtn.style.top = y + "px";
-        noBtn.style.transform = "none"; 
         noBtn.style.zIndex = "1000"; 
 
         size += 15;
@@ -99,14 +97,10 @@ function selectRest(name, menuUrls, images) {
     menuUrls.forEach((url) => {
         const a = document.createElement("a");
         a.href = url; a.target = "_blank"; a.className = "main-link";
-        
-        if (url.startsWith("http")) {
-            a.innerText = "Visit Official Website";
-        } else if (url.toLowerCase().includes("beverage") || url.includes("Menu 2")) {
-            a.innerText = "Drinks Menu";
-        } else if (url.endsWith(".pdf")) {
-            a.innerText = "Food Menu";
-        } else { a.innerText = "View Details"; }
+        if (url.startsWith("http")) { a.innerText = "Visit Official Website"; }
+        else if (url.toLowerCase().includes("beverage") || url.includes("Menu 2")) { a.innerText = "Drinks Menu"; }
+        else if (url.endsWith(".pdf")) { a.innerText = "Food Menu"; }
+        else { a.innerText = "View Details"; }
         linksContainer.appendChild(a);
     });
 
@@ -121,16 +115,28 @@ function selectRest(name, menuUrls, images) {
     });
 }
 
+// Modal Control
 function openModal(i) {
     currentImageIndex = i;
     document.getElementById("imageModal").style.display = "flex";
     document.getElementById("fullImage").src = menuImages[i];
 }
-function closeModal() { document.getElementById("imageModal").style.display = "none"; }
+
+function closeModal() { 
+    document.getElementById("imageModal").style.display = "none"; 
+}
+
+// Close modal when clicking outside the image
+window.onclick = function(event) {
+    const modal = document.getElementById("imageModal");
+    if (event.target == modal) { closeModal(); }
+}
+
 function changeImage(step) {
     currentImageIndex = (currentImageIndex + step + menuImages.length) % menuImages.length;
     document.getElementById("fullImage").src = menuImages[currentImageIndex];
 }
+
 function backToGrid() {
     document.getElementById("selectionDetail").classList.add("hidden");
     document.getElementById("restaurantGridSection").classList.remove("hidden");
