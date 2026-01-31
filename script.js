@@ -1,71 +1,138 @@
-let yesButton = document.getElementById("yesButton");
-let noButton = document.getElementById("noButton");
-let menuSection = document.getElementById("menuSection");
-let size = 20;
+let totalPoints = 0; 
+let heartInterval;
+let menuImages = [];
+let currentImageIndex = 0;
+let size = 20; 
+
+function showMainPage() {
+    document.getElementById("introSection").classList.add("hidden");
+    document.getElementById("mainContainer").classList.remove("hidden");
+}
 
 function yesClicked() {
-    // Hide main container and show menu section
-    document.querySelector(".container").style.display = "none";
-    menuSection.style.display = "block";
+    document.getElementById("mainContainer").classList.add("hidden");
+    document.getElementById("menuSection").classList.remove("hidden");
+    startHearts(); 
 }
 
-function noClicked() {
-    // Even if "No" is clicked, the "Yes" button should grow
-    size += 50; // Increase the size when "No" is clicked
-    yesButton.style.fontSize = size + "px";
-
-    // Use CSS transform to scale the "Yes" button
-    yesButton.style.transform = `scale(${1 + size / 100})`; // Grow by 10% per click
-
-    // Disable the "No" button temporarily or stop it from being clicked further
-    noButton.style.pointerEvents = "none"; // Disable interaction
-    setTimeout(function() {
-        // Re-enable the "No" button after 1 second
-        noButton.style.pointerEvents = "auto";
-    }, 1000); // Re-enable after 1 second (you can adjust the time)
+// Truly Random Pastel Background Color
+function changeBackgroundColor() {
+    const r = Math.floor(Math.random() * 56) + 200;
+    const g = Math.floor(Math.random() * 56) + 200;
+    const b = Math.floor(Math.random() * 56) + 200;
+    document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
 }
 
-
-function goBack() {
-    // Redirect back to the main page (index.html)
-    window.location.href = "index.html";
+function startHearts() {
+    if (heartInterval) return;
+    heartInterval = setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart-particle";
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 90 + "vw";
+        heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+        
+        heart.onclick = function() {
+            totalPoints++;
+            document.getElementById("score").textContent = totalPoints;
+            changeBackgroundColor(); // Change background randomly on each click
+            this.innerHTML = "✨";
+            setTimeout(() => this.remove(), 100);
+        };
+        document.body.appendChild(heart);
+        setTimeout(() => { if(heart.parentNode) heart.remove(); }, 5000);
+    }, 400);
 }
 
-// Move "No" button to a random position and grow "Yes" button when cursor is near
+// Mouse Evasion Logic
 document.addEventListener("mousemove", function(event) {
-    let noButtonRect = noButton.getBoundingClientRect();
-    let distance = Math.sqrt(Math.pow(event.clientX - (noButtonRect.left + noButtonRect.width / 2), 2) + 
-                             Math.pow(event.clientY - (noButtonRect.top + noButtonRect.height / 2), 2));
+    const mainContainer = document.getElementById("mainContainer");
+    const noBtn = document.getElementById("noButton");
+    const yesBtn = document.getElementById("yesButton");
+    if (!mainContainer || mainContainer.classList.contains("hidden") || !noBtn) return;
 
-    // Define a distance threshold for when the cursor is "near" the "No" button
-    let threshold = 100; // Adjust the threshold as needed
+    let rect = noBtn.getBoundingClientRect();
+    let distance = Math.sqrt(
+        Math.pow(event.clientX - (rect.left + rect.width / 2), 2) + 
+        Math.pow(event.clientY - (rect.top + rect.height / 2), 2)
+    );
 
-    if (distance < threshold) {
-        // Move "No" button to a random position when the cursor is near
-        let x = Math.random() * (window.innerWidth - 100); // Ensure it stays inside screen
-        let y = Math.random() * (window.innerHeight - 50); // Ensure it stays inside screen
-        noButton.style.position = "absolute"; // Ensure "No" button moves
-        noButton.style.left = x + "px";
-        noButton.style.top = y + "px";
+    if (distance < 130) { 
+        let x = Math.random() * (window.innerWidth - rect.width);
+        let y = Math.random() * (window.innerHeight - rect.height);
+        noBtn.style.position = "fixed"; 
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+        noBtn.style.transform = "none"; 
+        noBtn.style.zIndex = "1000"; 
 
-        // Disable the "No" button when close to the cursor
-        noButton.style.pointerEvents = "none"; // Disable interaction with "No" button
-
-        // Increase the size of the "Yes" button when cursor is near the "No" button
-        size += 5; // Increase by 5px each time the cursor is near
-        yesButton.style.fontSize = size + "px";
-
-        // Use CSS transform to scale the "Yes" button, which allows it to grow and overlap
-        yesButton.style.transform = `scale(${1 + size / 100})`; // Grow by 5% per time
-
-    } else {
-        // Re-enable the "No" button when cursor is far enough
-        noButton.style.pointerEvents = "auto"; // Re-enable interaction
-
-        // Optional: Reset the size of "Yes" button when the cursor is far enough (if you want this behavior)
-        // size = 20; // Reset to initial size
-        // yesButton.style.fontSize = size + "px";
-        // yesButton.style.transform = `scale(1)`; // Reset size transformation
+        size += 15;
+        yesBtn.style.position = "fixed";
+        yesBtn.style.left = "50%";
+        yesBtn.style.top = "50%";
+        yesBtn.style.transform = "translate(-50%, -50%)";
+        yesBtn.style.fontSize = size + "px";
+        yesBtn.style.padding = (size / 2) + "px " + size + "px";
+        yesBtn.style.zIndex = "500";
     }
 });
 
+function noClicked() { size += 100; yesClicked(); }
+
+function showRejected() {
+    document.getElementById("restaurantGridSection").classList.add("hidden");
+    document.getElementById("rejectionDetail").classList.remove("hidden");
+}
+
+function backFromRejection() {
+    document.getElementById("rejectionDetail").classList.add("hidden");
+    document.getElementById("restaurantGridSection").classList.remove("hidden");
+}
+
+function selectRest(name, menuUrls, images) {
+    document.getElementById("restaurantGridSection").classList.add("hidden");
+    document.getElementById("selectionDetail").classList.remove("hidden");
+    document.getElementById("chosenName").innerText = name + " ❤️";
+    const linksContainer = document.getElementById("menuLinksContainer");
+    linksContainer.innerHTML = "";
+    
+    menuUrls.forEach((url) => {
+        const a = document.createElement("a");
+        a.href = url; a.target = "_blank"; a.className = "main-link";
+        
+        if (url.startsWith("http")) {
+            a.innerText = "Visit Official Website";
+        } else if (url.toLowerCase().includes("beverage") || url.includes("Menu 2")) {
+            a.innerText = "Drinks Menu";
+        } else if (url.endsWith(".pdf")) {
+            a.innerText = "Food Menu";
+        } else { a.innerText = "View Details"; }
+        linksContainer.appendChild(a);
+    });
+
+    menuImages = images;
+    const prev = document.getElementById("previewContainer");
+    prev.innerHTML = "";
+    images.forEach((src, i) => {
+        const img = document.createElement("img");
+        img.src = src; img.className = "mini-menu";
+        img.onclick = () => openModal(i);
+        prev.appendChild(img);
+    });
+}
+
+function openModal(i) {
+    currentImageIndex = i;
+    document.getElementById("imageModal").style.display = "flex";
+    document.getElementById("fullImage").src = menuImages[i];
+}
+function closeModal() { document.getElementById("imageModal").style.display = "none"; }
+function changeImage(step) {
+    currentImageIndex = (currentImageIndex + step + menuImages.length) % menuImages.length;
+    document.getElementById("fullImage").src = menuImages[currentImageIndex];
+}
+function backToGrid() {
+    document.getElementById("selectionDetail").classList.add("hidden");
+    document.getElementById("restaurantGridSection").classList.remove("hidden");
+}
+function goBack() { window.location.reload(); }

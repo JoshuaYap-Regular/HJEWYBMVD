@@ -3,24 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Be My Valentine?</title>
+    <title>Valentine 2026</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Will you be my Valentine? ❤️</h1>
-        <img id="catGif" src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" alt="Cute Cat Love GIF">
+    <div id="introSection" class="container">
+        <h1>To my girlfriend, another Valentine's Day has come... ❤️</h1>
+        <img id="introGif" src="https://media1.tenor.com/m/gm8kUPk7fakAAAAd/speed-ishowspeed.gif" alt="Speed GIF">
         <br>
-        <button id="yesButton" onclick="yesClicked()">Yes</button>
-        <button id="noButton" onclick="noClicked()">No</button>
+        <button class="base-btn light-pink" onclick="showMainPage()">Next</button>
     </div>
 
-    <!-- Hidden menu section -->
-    <div id="menuSection" class="hidden">
-        <h2>Yay! Here's our dinner location 🍽️</h2>
-        <img src="Hopscotch_Capitol10.webp" alt="Menu Page 1">
-        <p><a href="https://www.hopscotch.sg/wp-content/uploads/2024/08/Hopscotch-Capitol-Food-Menu-interactive-10-Jul-24.pdf" target="_blank">View Full Menu</a></p>
-        <button id="goBackButton" onclick="goBack()">Go Back to Main Page</button>
+    <div id="mainContainer" class="container hidden">
+        <h1>Will you be my Valentine? ❤️</h1>
+        <img id="catGif" src="https://media1.tenor.com/m/9gqIF9ZtnF8AAAAd/nervous-dog-shy-wuba.gif" alt="Nervous Dog">
+        <div class="button-group">
+            <button id="yesButton" class="base-btn" onclick="yesClicked()">Yes</button>
+            <button id="noButton" class="base-btn" onclick="noClicked()">No</button>
+        </div>
+    </div>
+
+    <div id="menuSection" class="hidden container">
+        <div id="scoreBoard">Hearts: <span id="score">0</span> ❤️</div>
+        
+        <div id="restaurantGridSection">
+            <h2>Where shall we go? 🍽️</h2>
+            <div class="restaurant-grid">
+                <div class="restaurant-card" onclick="selectRest('Kulto', ['kulto-menu.pdf', 'kulto-beverage.pdf', 'https://kulto.sg/'], ['kulto-restaurant-image.jpg', 'kulto-Interior.jpg', 'Kulto Location.png'])">
+                    <img src="kulto-restaurant-image.jpg">
+                    <h3>Kulto</h3>
+                </div>
+                <div class="restaurant-card" onclick="selectRest('Boomerang', ['https://www.boomarang.com.sg/'], ['Boomerang.png', 'BoomerangMenu.webp', 'BoomerangMenu2.webp', 'BoomerangMenu3.webp', 'BoomerangMenu4.webp', 'Boomerang Location.png'])">
+                    <img src="Boomerang.png">
+                    <h3>Boomerang</h3>
+                </div>
+                <div class="restaurant-card" onclick="selectRest('Kafe Utu', ['Kafe Utu Menu.pdf', 'Kafe Utu Menu 2.pdf', 'https://kafeutu.com/'], ['Kafe Utu.webp', 'Kafe Utu Menu1.jpg', 'Kafe Utu Location.png'])">
+                    <img src="Kafe Utu.webp">
+                    <h3>Kafe Utu</h3>
+                </div>
+                <div class="restaurant-card rejected-card" onclick="showRejected()">
+                    <img src="https://media1.tenor.com/m/yo2Vzfau4G0AAAAd/cat-stare-angry-cat.gif">
+                    <h3>Rejected, do better!</h3>
+                </div>
+            </div>
+        </div>
+
+        <div id="selectionDetail" class="hidden">
+            <h3 id="chosenName"></h3>
+            <div class="menu-preview" id="previewContainer"></div>
+            <div id="menuLinksContainer" class="menu-links"></div>
+            <button class="base-btn orange" onclick="backToGrid()">Go Back to Restaurants</button>
+        </div>
+
+        <div id="rejectionDetail" class="hidden">
+            <h3>HOW DARE YOU! 😾</h3>
+            <img src="https://media.tenor.com/c6nXyQmertAAAAAi/the-voices.gif" class="rejection-gif">
+            <img src="https://media1.tenor.com/m/yo2Vzfau4G0AAAAd/cat-stare-angry-cat.gif" class="rejection-gif">
+            <br>
+            <button class="base-btn orange" onclick="backFromRejection()">I'm sorry my Jia En!</button>
+        </div>
+        
+        <div class="nav-buttons">
+            <button class="base-btn light-pink" onclick="goBack()">Restart Selection</button>
+        </div>
+    </div>
+
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <button class="prev" onclick="changeImage(-1)">&#10094;</button>
+        <img class="modal-content" id="fullImage">
+        <button class="next" onclick="changeImage(1)">&#10095;</button>
     </div>
 
     <script src="script.js"></script>
