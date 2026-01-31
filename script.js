@@ -15,7 +15,6 @@ function yesClicked() {
     startHearts(); 
 }
 
-// Random Pastel Background
 function changeBackgroundColor() {
     const r = Math.floor(Math.random() * 56) + 200;
     const g = Math.floor(Math.random() * 56) + 200;
@@ -43,7 +42,6 @@ function startHearts() {
     }, 400);
 }
 
-// Button Evasion logic
 document.addEventListener("mousemove", function(event) {
     const mainContainer = document.getElementById("mainContainer");
     const noBtn = document.getElementById("noButton");
@@ -121,22 +119,26 @@ function openModal(i) {
     document.getElementById("imageModal").style.display = "flex";
     document.getElementById("fullImage").src = menuImages[i];
 }
-
-function closeModal() { 
-    document.getElementById("imageModal").style.display = "none"; 
-}
-
-// Close modal when clicking outside the image
+function closeModal() { document.getElementById("imageModal").style.display = "none"; }
 window.onclick = function(event) {
     const modal = document.getElementById("imageModal");
     if (event.target == modal) { closeModal(); }
 }
 
+// Keyboard Listeners
+document.addEventListener('keydown', function(event) {
+    const modal = document.getElementById("imageModal");
+    if (modal.style.display === "flex") {
+        if (event.key === "Escape") { closeModal(); }
+        else if (event.key === "ArrowRight") { changeImage(1); }
+        else if (event.key === "ArrowLeft") { changeImage(-1); }
+    }
+});
+
 function changeImage(step) {
     currentImageIndex = (currentImageIndex + step + menuImages.length) % menuImages.length;
     document.getElementById("fullImage").src = menuImages[currentImageIndex];
 }
-
 function backToGrid() {
     document.getElementById("selectionDetail").classList.add("hidden");
     document.getElementById("restaurantGridSection").classList.remove("hidden");
